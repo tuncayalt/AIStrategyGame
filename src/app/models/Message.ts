@@ -20,6 +20,7 @@ export class Message implements IRenderable{
             return;
         }
         this.ctx.font = "48px Arial";
+        this.ctx.fillStyle = "#050505";
         this.ctx.textAlign = "center"; 
 
         var lines = this.message.split('\n');

@@ -5,6 +5,7 @@ import { Gold } from '../models/Gold';
 import { CustomNetwork } from '../AI/CustomNetwork';
 import { Tile } from '../models/Tile';
 import { Message } from '../models/Message';
+import { Score } from '../models/Score';
 
 @Component({
   selector: 'app-canvas',
@@ -24,6 +25,7 @@ export class CanvasComponent implements OnInit {
   golds: Gold[];
   tiles: Tile[];
   message: Message;
+  score: Score;
   age: number = 0;
   fps = 50;
   running = true;
@@ -116,6 +118,7 @@ export class CanvasComponent implements OnInit {
       this.tiles.push(tile);
     }
     this.message = new Message(this.ctx, this.fps);
+    this.score = new Score(this.ctx);
   }
 
   validate(): boolean {
@@ -190,6 +193,16 @@ export class CanvasComponent implements OnInit {
     this.render();
   }
 
+  getMaxAIScore(): number {
+    var max = -Infinity;
+    this.otherPlayers.forEach(element => {
+      if (element.score > max){
+        max = element.score;
+      }
+    });
+    return max;
+  }
+
   update = () => {
     this.age++;
     if (this.age < this.fps * 3){
@@ -210,6 +223,8 @@ export class CanvasComponent implements OnInit {
       element.update();
     });
     this.myPlayer.update();
+    this.score.setScores(this.myPlayer.score, this.getMaxAIScore());
+    this.score.update();
     if (this.myPlayer.score >= this.WIN_SCORE){
       this.gameOver();
       return;
@@ -244,5 +259,6 @@ export class CanvasComponent implements OnInit {
     });
     this.myPlayer.render();
     this.message.render();
+    this.score.render();
   }
 }
