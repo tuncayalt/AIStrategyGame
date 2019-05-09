@@ -125,7 +125,12 @@ export class CanvasComponent implements OnInit {
       return false;
     }
     if (this.aiPlayerCount > 20){
-      this.validationRef.nativeElement.innerText += 'Too many players.'; 
+      this.validationRef.nativeElement.innerText += 'Too many players. 20 max.'; 
+      return false;
+    }
+
+    if (this.goldCount > 20){
+      this.validationRef.nativeElement.innerText += 'Too many golds. 20 max.'; 
       return false;
     }
     return true;
