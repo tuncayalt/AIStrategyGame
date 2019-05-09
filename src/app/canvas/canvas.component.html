@@ -1,0 +1,19 @@
+<div>
+    <p>
+        Use W (up), A (left), S (down), D (right). Collect as many gold as you can! Try not to harm the trees!
+    </p>
+</div>
+
+<div>
+    <mat-form-field>
+        <input matInput #playerCount placeholder="AI Player Count" type="number" value="2">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput #goldCount placeholder="Gold Count" type="number" value="3">
+    </mat-form-field>
+    <button mat-button #gameButton color="primary" (click)=startGame()>Start Game</button>
+    <p id="validation" #validation></p>
+</div>
+
+<canvas #myCanvas width="640" height="480" tabindex=0 (keydown)="doKeyDown($event)" (keyup)="doKeyUp($event)" >
+</canvas>
