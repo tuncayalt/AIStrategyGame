@@ -51,6 +51,25 @@ export class Tile implements IRenderable{
         }
     }
 
+    optimizeTrees(){
+        if (this.y > 420 || this.y < 40 || this.x > 580 || this.x < 40){
+            this.trees = Math.max(this.trees - 1, 0);
+            if (this.trees == 0){
+              this.trees -= Math.floor(Math.random() * 2) + 1;
+            } 
+          }else{
+            this.trees = Math.min(this.trees + 1, 3);
+            if (this.trees == 0){
+              this.trees -= Math.floor(Math.random() * 2) + 1;
+            } 
+          }
+    }
+
+    setCoordinates(index: number){
+        this.x = (index * this.width) % 640 + this.width / 2;
+        this.y = Math.floor(index * this.width / 640) * this.width + this.height / 2;
+    }
+
     update(){
         //console.log(this.damage);
         if (this.damage > 20){

@@ -32,16 +32,16 @@ export class CanvasComponent implements OnInit {
   goldCount;
   aiPlayerCount;
   tileCount = 80;
+  downKeys: Set<number>;
 
   constructor() { }
 
   ngOnInit() {
+    console.log("ng init");
     this.ctx = this.canvasRef.nativeElement.getContext('2d');
     this.myNetwork = new CustomNetwork(4, 6, 4);
     this.initial();
   }
-
-  downKeys: Set<number>;
 
   doKeyDown = (event) => {
     if (event.keyCode === 87 ||
@@ -62,6 +62,7 @@ export class CanvasComponent implements OnInit {
   }
 
   startGame = () => {
+    console.log("startGame");
     this.goldCount = parseInt(this.goldCountRef.nativeElement.value);
     this.aiPlayerCount = parseInt(this.playerCountRef.nativeElement.value);
     if (!this.validate()){
@@ -71,11 +72,13 @@ export class CanvasComponent implements OnInit {
   }
 
   restartGame = () => {
+    console.log("restartGame");
     this.initial();
     this.startGame();
   }
 
   resumeGame() {
+    console.log("resume game");
     this.gameButton.nativeElement.innerText = 'Pause Game';
     this.gameButton.nativeElement.removeEventListener("click", this.startGame);
     this.gameButton.nativeElement.removeEventListener("click", this.resumeGame);
@@ -98,6 +101,7 @@ export class CanvasComponent implements OnInit {
   }
 
   initial = () => {
+    console.log("initialize");
     this.age = 0;
     this.otherPlayers = new Array();
     this.golds = new Array();
@@ -106,8 +110,9 @@ export class CanvasComponent implements OnInit {
     this.myPlayer = new HumanPlayer(this.ctx, this.golds, this.downKeys, this.tiles);
     for (var i = 0; i < this.tileCount; i++) {
       var tile = new Tile(this.ctx);
-      tile.x = (i * tile.width) % 640 + tile.width / 2;
-      tile.y = Math.floor(i * tile.width / 640) * tile.width + tile.height / 2;
+      tile.setCoordinates(i);
+      tile.optimizeTrees();
+      tile.picture.src = tile.getPicture();
       this.tiles.push(tile);
     }
     this.message = new Message(this.ctx, this.fps);
@@ -115,7 +120,6 @@ export class CanvasComponent implements OnInit {
 
   validate(): boolean {
     this.validationRef.nativeElement.innerText = '';
-    console.log(this.playerCountRef.nativeElement.value);
     if (!this.aiPlayerCount || this.aiPlayerCount <= 0){
         this.validationRef.nativeElement.innerText += 'Invalid player count.'; 
         return false;
@@ -137,6 +141,7 @@ export class CanvasComponent implements OnInit {
   }
 
   gameLoop = () => {
+      //console.log("game loop");
       if (!this.running){
         return;
       }
@@ -149,6 +154,7 @@ export class CanvasComponent implements OnInit {
   }
 
   stopGame = () => {
+    console.log("stop game");
     this.gameButton.nativeElement.innerText = 'Resume Game';
     this.gameButton.nativeElement.removeEventListener("click", this.stopGame);
     this.gameButton.nativeElement.addEventListener("click", this.resumeGame);
