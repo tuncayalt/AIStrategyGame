@@ -38,15 +38,18 @@ export class Player implements IRenderable{
         var nonTakenGolds = this.golds.filter(g => !g.taken);
         nonTakenGolds.forEach(element => {
             if (Math.sqrt(Math.pow(this.x - element.x, 2) + Math.pow(this.y - element.y, 2)) < (this.width + element.width) / 4){
-                element.taken = true;
+                element.x = Math.floor(Math.random() * 640);
+                element.y = Math.floor(Math.random() * 480);
                 this.score++;
             }
         });
 
-        var liveTrees = this.tiles.filter(el => el.trees > 0);
-        liveTrees.forEach(el => {
+        this.tiles.forEach(el => {
             if (Math.sqrt(Math.pow(this.x - el.x, 2) + Math.pow(this.y - el.y, 2)) < (this.width + el.width) / 4){
-                el.damage++;
+                this.chassis.setTerrain(Math.max(0, el.trees));
+                if (el.trees > 0){
+                    el.damage++;
+                }
             }
         }); 
     }

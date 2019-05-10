@@ -3,4 +3,5 @@ export interface IChassis{
     moveDown();
     moveLeft();
     moveRight();
+    setTerrain(terrain: number);
 }

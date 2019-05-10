@@ -182,9 +182,9 @@ export class CanvasComponent implements OnInit {
     });
 
     if (this.myPlayer.score >= maxScore){
-      this.message.message = "Game Over!\nYou win!\nHope it was worth it...";
+      this.message.message = "Game Over!\nYou win!\nScore: " + this.myPlayer.score;
     }else{
-      this.message.message = "Game Over!\nYou lost!\nIn every respect...";
+      this.message.message = "Game Over!\nYou lost!\nScore: " + this.myPlayer.score;
     }
     
     this.message.hidden = false;

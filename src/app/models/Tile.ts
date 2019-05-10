@@ -9,6 +9,8 @@ export class Tile implements IRenderable{
     trees = -1;
     damage = 0;
     ctx: CanvasRenderingContext2D
+    damageTime = 200;
+
     constructor(ctx: CanvasRenderingContext2D){
         this.ctx = ctx;
         this.picture = new Image();
@@ -18,14 +20,11 @@ export class Tile implements IRenderable{
             this.trees = -2;
         }else if (ran >= 30 && ran < 60){
             this.trees = -1;
-        }
-        else if (ran >= 60 && ran < 70){
+        }else if (ran >= 60 && ran < 70){
             this.trees = 1;
-        }
-        else if (ran >= 70 && ran < 80){
+        }else if (ran >= 70 && ran < 80){
             this.trees = 2;
-        }
-        else{
+        }else{
             this.trees = 3;
         }
         this.picture.src = this.getPicture();
@@ -72,7 +71,7 @@ export class Tile implements IRenderable{
 
     update(){
         //console.log(this.damage);
-        if (this.damage > 20){
+        if (this.damage > this.damageTime){
 
             this.trees--;
             this.damage = 0;
